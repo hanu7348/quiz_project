@@ -42,7 +42,7 @@ Our sleek and intuitive user interface ensures a seamless experience:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/quiz_project.git
+   git clone https://github.com/hanu7348/quiz_project.git
    ```
 2. Install dependencies:
    ```
@@ -68,11 +68,11 @@ Our sleek and intuitive user interface ensures a seamless experience:
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) file for details on how to get involved.
+We welcome contributions! Please see our Search Creators file for details on how to get involved.
 
 ## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the Search Creators file for details.
 
 ## 🙏 Acknowledgments
 
