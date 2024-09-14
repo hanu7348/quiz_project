@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .table {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .animate-charcter {
+            background-image: linear-gradient(
+                -225deg,
+                #231557 0%,
+                #44107a 29%,
+                #ff1361 67%,
+                #fff800 100%
+            );
+            background-size: auto auto;
+            background-clip: border-box;
+            background-size: 200% auto;
+            color: #fff;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textclip 2s linear infinite;
+            display: inline-block;
+        }
+        @keyframes textclip {
+            to {
+                background-position: 200% center;
+            }
+        }
+        main {
+            flex: 1;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">Quiz App</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/dashboard/"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/user/profile/"><i class="fas fa-user"></i> Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="accounts/logout/"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container mt-5">
+            <h1 class="mb-4 text-center animate-charcter animate__animated animate__bounceIn">User Profile</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 animate__animated animate__fadeInLeft">
+                        <div class="card-body text-center">
+                            <i class="fas fa-user-circle fa-5x mb-3 text-primary"></i>
+                            <h5 class="card-title">{{ user.username }}</h5>
+                            <p class="card-text"><i class="fas fa-envelope me-2"></i>{{ user.email }}</p>
+                            <p class="card-text"><i class="fas fa-calendar-alt me-2"></i>Joined: {{ user.date_joined|date:"F d, Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 animate__animated animate__fadeInRight">
+                    <h2 class="mb-3"><i class="fas fa-history me-2"></i>Quiz History</h2>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-question-circle me-2"></i>Quiz</th>
+                                    <th><i class="fas fa-star me-2"></i>Score</th>
+                                    <th><i class="fas fa-clock me-2"></i>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in results %}
+                                <tr class="animate__animated animate__fadeIn" style="animation-delay: {{ forloop.counter0 }}00ms;">
+                                    <td>{{ result.quiz.title }}</td>
+                                    <td>
+                                        <div class="progress">
+                                            {% with total_questions=result.quiz.question_set.count %}
+                                            {% widthratio result.score total_questions 100 as percentage %}
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ percentage }}%;" aria-valuenow="{{ result.score }}" aria-valuemin="0" aria-valuemax="{{ total_questions }}">
+                                                {{ result.score }} / {{ total_questions }}
+                                            </div>
+                                            {% endwith %}
+                                        </div>
+                                    </td>
+                                    <td>{{ result.completed_at|date:"F d, Y H:i" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="3" class="text-center">No quizzes taken yet.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">&copy; 2024 Quiz App. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

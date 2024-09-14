@@ -1,0 +1,22 @@
+<!-- templates/admin/dashboard.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Admin Dashboard</h1>
+<h2>Subjects</h2>
+<ul>
+{% for subject in subjects %}
+    <li>{{ subject.name }}</li>
+{% endfor %}
+</ul>
+<h2>Quizzes</h2>
+<ul>
+{% for quiz in quizzes %}
+    <li>
+        {{ quiz.title }} 
+        <a href="{% url 'edit_quiz' quiz.id %}">Edit</a>
+    </li>
+{% endfor %}
+</ul>
+<a href="{% url 'create_quiz' %}">Create New Quiz</a>
+{% endblock %}
